@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>It's Out!</title>
+        <link href="style.css" rel="stylesheet" type="text/css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <style>
+            .red-text {
+                color: red;
+            }
+
+             /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* Close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .accordion-toggle {
+            display: none;
+        }
+
+        .accordion-label {
+            background: transparent;
+            border: 2px solid white;
+            outline: none;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .accordion-content {
+            display: none;
+            padding: 10px;
+        }
+
+        .accordion-toggle:checked + .accordion-label + .accordion-content {
+            display: block;
+        }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+
+            <div class="content">
+                <p>Taylor Swift</p>
+                <p>The Tortured Poets Department Is Out!</p>
+                <h1>Turtured Poets Department<span>Is Out!</span></h1>
+                <div class="launch-time">
+                    <div>
+                        <p id="days" class="countdown-number">00</p>
+                        <span>Days</span>
+                    </div>
+                    <div>
+                        <p id="hours" class="countdown-number">00</p>
+                        <span>Hours</span>
+                    </div>
+                    <div>
+                        <p id="minutes" class="countdown-number">00</p>
+                        <span>Minutes</span>
+                    </div>
+                    <div>
+                        <p id="seconds" class="countdown-number">00</p>
+                        <span>Seconds</span>
+                    </div>
+                </div>
+                <p>Since The Album Came Out!</p>
+                <input type="checkbox" id="accordion-toggle" class="accordion-toggle">
+                <label for="accordion-toggle" class="accordion-label">Learn More</label>
+                <div class="accordion-content">
+                    <p>Some Fun Facts about The Tortured Poets Department: <br>1. The Tortured poets department is a double album.<br>2. The entire album has 31 songs.<br>3. It took Taylor Swift two years to write the entire album.</p>
+                </div>
+                <!--<button onclick="displaySongInfo()">Learn More </button>-->
+            </div>
+            <div id="songInfoModal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <p id="songInfo"></p>
+                </div>
+            </div>
+            <img src="fortnite.png" id="images">
+            <audio autoplay ="fortnite.mp3" id="audio">
+        </div>
+        <script>
+            var releaseDate = new Date("April 19, 2024 00:00:00").getTime();
+            var images = ["fortnite.png", "heart.png", "gallows.png", "florida.png", "blackdog.png", "TPD.png"];
+            var audio = ["Fortnight.mp3", "I Can Do It With a Broken Heart.mp3", "Who's Afraid of Little Old Me.mp3", "Florida!!!.mp3", "The Black Dog.mp3", "The Tortured Poets Department.mp3"];
+            var audioElements = [];
+
+            audio.forEach(function(audioSrc) {
+                var audioElement = new Audio(audioSrc);
+                audioElement.loop = true;
+                audioElements.push(audioElement);
+            });
+
+            /*function myImages(){
+                document.getElementById("audio").src = audio[2]
+            }*/
+            var currentAudioIndex = -1;
+            var currentAudioElement;
+
+            var x = setInterval(function(){
+            if (currentAudioElement) { 
+                currentAudioElement.pause(); 
+            }
+                var now = new Date().getTime();
+                var distance = now - releaseDate;
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                //var audio = ["fortnite.mp3", "heart.mp3", "afraid.mp3"]
+
+                var daysElement = document.getElementById("days");
+                var hoursElement = document.getElementById("hours");
+                var minutesElement = document.getElementById("minutes");
+                var secondsElement = document.getElementById("seconds");
+
+                daysElement.innerHTML = days;
+                hoursElement.innerHTML = hours;
+                minutesElement.innerHTML = minutes;
+                secondsElement.innerHTML = seconds;
+
+                if (parseInt(daysElement.innerHTML) === 13) { 
+                    daysElement.classList.add("red-text"); 
+                } else { 
+                    daysElement.classList.remove("red-text"); 
+                }
+
+                if (parseInt(hoursElement.innerHTML) === 13) { 
+                    hoursElement.classList.add("red-text"); 
+                } else { 
+                    hoursElement.classList.remove("red-text"); 
+                }
+
+                if (parseInt(minutesElement.innerHTML) === 13) { 
+                    minutesElement.classList.add("red-text"); 
+                } else { 
+                    minutesElement.classList.remove("red-text"); 
+                }
+
+                if (parseInt(secondsElement.innerHTML) === 13) { 
+                    secondsElement.classList.add("red-text"); 
+                } else { 
+                    secondsElement.classList.remove("red-text"); 
+                }
+
+                var audioIndex;
+                if (minutes >= 0 && minutes <= 10){
+                    document.getElementById("images").src = images[0];
+                    audioIndex = 0;
+                } else if (minutes >= 11 && minutes <=20){
+                    document.getElementById("images").src = images[1];
+                    audioIndex = 1;
+                } else if (minutes >= 21 && minutes <=30){
+                    document.getElementById("images").src = images[2];
+                    audioIndex = 2;
+                } else if (minutes >= 31 && minutes <=40){
+                    document.getElementById("images").src = images[3];
+                    audioIndex = 3;
+                } else if (minutes >= 41 && minutes <=50){
+                    document.getElementById("images").src = images[4];
+                    audioIndex = 4;
+                } else if (minutes >= 51 && minutes <=60){
+                    document.getElementById("images").src = images[5];
+                    audioIndex = 5;
+                }
+
+                var newAudioElement = audioElements[audioIndex];
+                newAudioElement.play();
+                currentAudioElement = newAudioElement;
+
+                currentAudioIndex = audioIndex;
+                var audioFileName = audio[audioIndex].split(".")[0]; 
+                $("h1").text("You are listening to: " + audioFileName ); 
+            },1000);
+
+            function displaySongInfo() {
+            var audioIndex = currentAudioIndex;
+            var modal = document.getElementById("songInfoModal");
+            var songInfoText = document.getElementById("songInfo");
+
+        }
+
+        document.getElementsByClassName("close")[0].onclick = function() {
+            document.getElementById("songInfoModal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById("songInfoModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        </script>
+    </body>
+</html>
